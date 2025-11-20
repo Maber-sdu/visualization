@@ -1,3 +1,2 @@
-# Visalization project for 3rd semester
+[🌎 The Global Leader Ideology Dataset (Kaggle)](https://www.kaggle.com/datasets/mexwell/the-global-leader-ideology-dataset)
 
-[EEA Air Quality Download Portal 💨](https://eeadmz1-downloads-webapp.azurewebsites.net/)
