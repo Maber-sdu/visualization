@@ -23,7 +23,7 @@ df["democracy_flag"] = normalize_democracy(df["democracy"])
 valid_ideologies = ["leftist", "centrist", "rightist"]
 color_map = {
     "leftist": "#2067CA",
-    "centrist": "#F1C40F",
+    "centrist": "#13993C",
     "rightist": "#C00C1B",
 }
 
@@ -79,7 +79,7 @@ def make_world_map(selected_region="all", selected_year=None, democracy_filter="
 
     fig.update_geos(
         showland=True,
-        landcolor="#edd3d3",
+        landcolor="#E2DFDF",
         showcountries=True,
         countrycolor="#ffffff",
         showframe=False,
