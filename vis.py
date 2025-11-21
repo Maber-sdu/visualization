@@ -308,12 +308,11 @@ app.layout = html.Div(
                             id="trend_chart",
                             figure=default_trend_fig,
                             config=TREND_CONFIG,
-                            style={"height": "25vh", "width": "100%"},
+                            style={"height": "17vh", "width": "100%"},
                         ),
                         html.Div(
                             style={"paddingTop": "8px"},
                             children=[
-                                html.Label("Select Year", style={"fontSize": 16, "marginBottom": "4px"}),
                                 dcc.Slider(
                                     id="year_slider",
                                     min=min_year if min_year is not None else 0,
