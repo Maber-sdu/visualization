@@ -207,12 +207,11 @@ app.layout = html.Div(
                     id="single_selector_div",
                     children=[
                         html.Label("Select Ideology", style={"fontSize": 16}),
-                        dcc.Dropdown(
+                        dcc.RadioItems(
                             id="ideology_selector",
                             options=[{"label": ide.capitalize(), "value": ide} for ide in valid_ideologies],
                             value="leftist",
-                            clearable=False,
-                            style={"width": "100%"}
+                            labelStyle={"display": "block", "marginBottom": "6px"}
                         )
                     ]
                 )
