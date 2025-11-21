@@ -119,6 +119,25 @@ democracy_options = [
 # Build Dash app
 # --------------------------------------
 app = Dash(__name__)
+app.index_string = """
+<!DOCTYPE html>
+<html lang=\"en\" style=\"height:100%; overflow:hidden;\">
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+    </head>
+    <body style=\"margin:0; height:100%; overflow:hidden;\">
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+"""
 
 MAP_CONFIG = {"displaylogo": False}
 TREND_CONFIG = {"displayModeBar": False, "staticPlot": True}
@@ -126,8 +145,9 @@ TREND_CONFIG = {"displayModeBar": False, "staticPlot": True}
 app.layout = html.Div(
     style={
         "display": "flex",
-        "height": "100vh",
-        "width": "100vw",
+        "height": "100%",
+        "minHeight": "100vh",
+        "width": "100%",
         "margin": "0",
         "overflow": "hidden",
         "backgroundColor": "#edf1f5"
@@ -205,15 +225,17 @@ app.layout = html.Div(
                 "height": "100%",
                 "display": "flex",
                 "flexDirection": "column",
-                "overflow": "hidden"
+                "overflow": "hidden",
+                "boxSizing": "border-box"
             },
             children=[
                 html.Div(
                     id="map_container",
                     style={
-                        "flex": "1 1 60%",
-                        "padding": "20px 30px 10px 30px",
-                        "height": "60%"
+                        "flex": "0 0 55%",
+                        "padding": "15px 30px 5px 30px",
+                        "height": "55%",
+                        "boxSizing": "border-box"
                     },
                     children=dcc.Graph(
                         id="world_map",
@@ -225,11 +247,12 @@ app.layout = html.Div(
                 html.Div(
                     id="histogram_container",
                     style={
-                        "flex": "0 0 40%",
-                        "padding": "0 30px 20px 30px",
+                        "flex": "0 0 45%",
+                        "padding": "0 30px 10px 30px",
                         "display": "flex",
                         "flexDirection": "column",
-                        "height": "40%"
+                        "height": "45%",
+                        "boxSizing": "border-box"
                     },
                     children=[
                         dcc.Graph(
