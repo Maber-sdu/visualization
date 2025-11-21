@@ -79,9 +79,10 @@ def make_world_map(selected_region="all", selected_year=None, democracy_filter="
 
     fig.update_geos(
         showland=True,
-        landcolor="#e0e0e0",
+        landcolor="#edd3d3",
         showcountries=True,
         countrycolor="#ffffff",
+        showframe=False,
     )
     if selected_region and selected_region != "all":
         fig.update_geos(fitbounds="locations")
