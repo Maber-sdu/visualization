@@ -26,6 +26,14 @@ color_map = {
     "centrist": "#b094b0",
     "rightist": "#db231d",
 }
+FONT_FAMILY = "ABCMonumentGrotesk, Helvetica, Arial, sans-serif"
+RADIO_LABEL_STYLE = {
+    "display": "flex",
+    "alignItems": "center",
+    "gap": "8px",
+    "padding": "2px 0",
+    "lineHeight": "1.3",
+}
 
 map_df = raw_df[["country_name", "hog_ideology", "year", "region", "democracy"]].copy()
 map_df["hog_ideology"] = map_df["hog_ideology"].str.lower()
@@ -88,7 +96,11 @@ def make_world_map(selected_region="all", selected_year=None, democracy_filter="
         fig.update_geos(fitbounds="locations")
     else:
         fig.update_geos(fitbounds=None)
-    fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), showlegend=False)
+    fig.update_layout(
+        margin=dict(l=0, r=0, t=0, b=0),
+        showlegend=False,
+        font=dict(family=FONT_FAMILY),
+    )
     return fig
 
 
@@ -124,6 +136,7 @@ def make_trend_chart(filtered_df, mode, selected_ideology):
         legend_title_text="Ideology" if mode != "single" else None,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor="rgba(0,0,0,0)",
+        font=dict(family=FONT_FAMILY),
     )
     fig.update_xaxes(showticklabels=False, fixedrange=True, showgrid=False)
     fig.update_yaxes(showticklabels=False, fixedrange=True, showgrid=False, zeroline=False)
@@ -182,12 +195,12 @@ def build_sidebar():
         children=[
             html.H2("Global Ideologies", style={"margin": "0"}),
             html.Div([
-                html.Label("Continent / Region", style={"fontSize": 16}),
+                html.Label("Region", style={"fontSize": 16}),
                 dcc.RadioItems(
                     id="region_selector",
                     options=[{"label": r, "value": r} for r in region_options],
                     value="all",
-                    labelStyle={"display": "block", "marginBottom": "6px"},
+                    labelStyle=RADIO_LABEL_STYLE,
                 ),
             ]),
             html.Div([
@@ -196,7 +209,7 @@ def build_sidebar():
                     id="democracy_selector",
                     options=democracy_options,
                     value="all",
-                    labelStyle={"display": "block", "marginBottom": "6px"},
+                    labelStyle=RADIO_LABEL_STYLE,
                 ),
             ]),
             html.Div([
@@ -208,7 +221,7 @@ def build_sidebar():
                         {"label": "All Ideologies", "value": "all"},
                     ],
                     value="single",
-                    labelStyle={"display": "block", "marginBottom": "6px"},
+                    labelStyle=RADIO_LABEL_STYLE,
                 ),
             ]),
             html.Div(
@@ -219,7 +232,7 @@ def build_sidebar():
                         id="ideology_selector",
                         options=[{"label": ide.capitalize(), "value": ide} for ide in valid_ideologies],
                         value="leftist",
-                        labelStyle={"display": "block", "marginBottom": "6px"},
+                        labelStyle=RADIO_LABEL_STYLE,
                     ),
                 ],
             ),
@@ -275,6 +288,7 @@ app.layout = html.Div(
         "margin": 0,
         "overflow": "hidden",
         "backgroundColor": "#ffffff00",
+        "fontFamily": FONT_FAMILY,
     },
     children=[
         build_sidebar(),
