@@ -22,9 +22,9 @@ df["democracy_flag"] = normalize_democracy(df["democracy"])
 
 valid_ideologies = ["leftist", "centrist", "rightist"]
 color_map = {
-    "leftist": "#2067CA",
-    "centrist": "#13993C",
-    "rightist": "#C00C1B",
+    "leftist": "#1d76db",
+    "centrist": "#b094b0",
+    "rightist": "#db231d",
 }
 
 map_df = raw_df[["country_name", "hog_ideology", "year", "region", "democracy"]].copy()
@@ -79,7 +79,7 @@ def make_world_map(selected_region="all", selected_year=None, democracy_filter="
 
     fig.update_geos(
         showland=True,
-        landcolor="#E2DFDF",
+        landcolor="#F0F0F0",
         showcountries=True,
         countrycolor="#ffffff",
         showframe=False,
@@ -103,11 +103,7 @@ def make_trend_chart(filtered_df, mode, selected_ideology):
             color_discrete_sequence=[color_map[selected_ideology]],
             opacity=0.75,
         )
-        fig.add_traces(
-            px.line(yearly_counts, x="year", y="count").update_traces(
-                line=dict(color=color_map[selected_ideology])
-            ).data
-        )
+       
     else:
         grouped = filtered_df[filtered_df["hog_ideology"].isin(valid_ideologies)]
         grouped = grouped.groupby(["year", "hog_ideology"]).size().reset_index(name="count")
@@ -126,9 +122,11 @@ def make_trend_chart(filtered_df, mode, selected_ideology):
         xaxis_title=None,
         yaxis_title=None,
         legend_title_text="Ideology" if mode != "single" else None,
+        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="rgba(0,0,0,0)",
     )
-    fig.update_xaxes(showticklabels=False, fixedrange=True)
-    fig.update_yaxes(showticklabels=False, fixedrange=True)
+    fig.update_xaxes(showticklabels=False, fixedrange=True, showgrid=False)
+    fig.update_yaxes(showticklabels=False, fixedrange=True, showgrid=False, zeroline=False)
     return fig
 
 
@@ -183,10 +181,6 @@ def build_sidebar():
         },
         children=[
             html.H2("Global Ideologies", style={"margin": "0"}),
-            html.P(
-                "Use the controls below to focus the map and histogram.",
-                style={"margin": "0", "color": "#6c757d"},
-            ),
             html.Div([
                 html.Label("Continent / Region", style={"fontSize": 16}),
                 dcc.RadioItems(
@@ -280,7 +274,7 @@ app.layout = html.Div(
         "width": "100vw",
         "margin": 0,
         "overflow": "hidden",
-        "backgroundColor": "#edf1f5",
+        "backgroundColor": "#ffffff00",
     },
     children=[
         build_sidebar(),
@@ -289,7 +283,6 @@ app.layout = html.Div(
             style={
                 "flex": "1 1 auto",
                 "height": "100vh",
-                "position": "relative",
                 "display": "flex",
                 "flexDirection": "column",
                 "overflow": "hidden",
@@ -300,11 +293,7 @@ app.layout = html.Div(
                     figure=default_world_map_fig,
                     config=MAP_CONFIG,
                     style={
-                        "position": "absolute",
-                        "top": 0,
-                        "left": 0,
-                        "right": 0,
-                        "bottom": 0,
+                        "flex": "1 1 85%",
                         "width": "100%",
                         "height": "100%",
                     },
@@ -312,25 +301,28 @@ app.layout = html.Div(
                 html.Div(
                     id="histogram_container",
                     style={
-                        "position": "absolute",
-                        "bottom": 0,
-                        "left": 0,
+                        "flex": "0 0 25%",
                         "width": "100%",
-                        "padding": "15px 30px 20px 30px",
+                        "padding": "10px 30px 15px 30px",
                         "boxSizing": "border-box",
                         "backgroundColor": "transparent",
                         "boxShadow": "none",
-                        "zIndex": 2,
+                        "display": "flex",
+                        "flexDirection": "column",
                     },
                     children=[
                         dcc.Graph(
                             id="trend_chart",
                             figure=default_trend_fig,
                             config=TREND_CONFIG,
-                            style={"height": "17vh", "width": "100%"},
+                            style={
+                                "flex": "1 1 auto",
+                                "width": "100%",
+                                "height": "100%",
+                            },
                         ),
                         html.Div(
-                            style={"paddingTop": "8px"},
+                            style={"paddingTop": "6px"},
                             children=[
                                 dcc.Slider(
                                     id="year_slider",
