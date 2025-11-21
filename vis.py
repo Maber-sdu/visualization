@@ -174,12 +174,11 @@ app.layout = html.Div(
                 ),
                 html.Div([
                     html.Label("Continent / Region", style={"fontSize": 16}),
-                    dcc.Dropdown(
+                    dcc.RadioItems(
                         id="region_selector",
                         options=[{"label": r, "value": r} for r in region_options],
                         value="all",
-                        clearable=False,
-                        style={"width": "100%"}
+                        labelStyle={"display": "block", "marginBottom": "6px"}
                     )
                 ]),
                 html.Div([
