@@ -83,6 +83,10 @@ def make_world_map(selected_region="all", selected_year=None, democracy_filter="
         showcountries=True,
         countrycolor="#ffffff",
     )
+    if selected_region and selected_region != "all":
+        fig.update_geos(fitbounds="locations")
+    else:
+        fig.update_geos(fitbounds=None)
     fig.update_layout(margin=dict(l=0, r=0, t=0, b=0), showlegend=False)
     return fig
 
@@ -235,7 +239,12 @@ def build_sidebar():
 # --------------------------------------
 # Dash app
 # --------------------------------------
-MAP_CONFIG = {"displaylogo": False, "displayModeBar": False, "responsive": True}
+MAP_CONFIG = {
+    "displaylogo": False,
+    "displayModeBar": False,
+    "responsive": True,
+    "scrollZoom": False,
+}
 TREND_CONFIG = {"displayModeBar": False, "staticPlot": True, "responsive": True}
 
 app = Dash(__name__)
@@ -277,7 +286,7 @@ app.layout = html.Div(
         html.Div(
             id="main_panel",
             style={
-                "width": "85%",
+                "flex": "1 1 auto",
                 "height": "100vh",
                 "position": "relative",
                 "display": "flex",
@@ -289,7 +298,15 @@ app.layout = html.Div(
                     id="world_map",
                     figure=default_world_map_fig,
                     config=MAP_CONFIG,
-                    style={"flex": "1 1 auto", "height": "100%", "width": "100%"},
+                    style={
+                        "position": "absolute",
+                        "top": 0,
+                        "left": 0,
+                        "right": 0,
+                        "bottom": 0,
+                        "width": "100%",
+                        "height": "100%",
+                    },
                 ),
                 html.Div(
                     id="histogram_container",
@@ -300,8 +317,9 @@ app.layout = html.Div(
                         "width": "100%",
                         "padding": "15px 30px 20px 30px",
                         "boxSizing": "border-box",
-                        "backgroundColor": "rgba(255, 255, 255, 0.95)",
-                        "boxShadow": "0 -6px 12px rgba(0,0,0,0.12)",
+                        "backgroundColor": "transparent",
+                        "boxShadow": "none",
+                        "zIndex": 2,
                     },
                     children=[
                         dcc.Graph(
