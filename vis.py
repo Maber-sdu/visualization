@@ -163,7 +163,11 @@ app.layout = html.Div(
                 "display": "flex",
                 "flexDirection": "column",
                 "gap": "20px",
-                "overflowY": "auto"
+                "overflowY": "auto",
+                "overflowX": "hidden",
+                "height": "100%",
+                "maxHeight": "100vh",
+                "boxSizing": "border-box"
             },
             children=[
                 html.H2("Global Ideologies", style={"margin": "0"}),
